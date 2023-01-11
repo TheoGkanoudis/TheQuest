@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1088589270124",
+    "project_id": "thequest-thequest",
+    "storage_bucket": "thequest-thequest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088589270124:android:c86d21fe8a495f656d1c49",
+        "android_client_info": {
+          "package_name": "com.example.quest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088589270124-0159orhpu71psm4jeonuhu15jodi4aqu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1ZxjfxU5BnCRkC269mO-OkYI06gt6FUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088589270124-0159orhpu71psm4jeonuhu15jodi4aqu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

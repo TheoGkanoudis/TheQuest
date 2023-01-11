@@ -1,0 +1,33 @@
+
+<resources>
+    <color name="seed">#815989</color>
+    <color name="colorPrimary">#824791</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#FCD7FF</color>
+    <color name="colorOnPrimaryContainer">#340043</color>
+    <color name="colorSecondary">#AF2855</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#FFD9DF</color>
+    <color name="colorOnSecondaryContainer">#3F0017</color>
+    <color name="colorTertiary">#006A61</color>
+    <color name="colorOnTertiary">#FFFFFF</color>
+    <color name="colorTertiaryContainer">#73F8E6</color>
+    <color name="colorOnTertiaryContainer">#00201C</color>
+    <color name="colorError">#BA1A1A</color>
+    <color name="colorErrorContainer">#FFDAD6</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <color name="colorOnErrorContainer">#410002</color>
+    <color name="colorBackground">#FFFBFF</color>
+    <color name="colorOnBackground">#340043</color>
+    <color name="colorSurface">#FFFBFF</color>
+    <color name="colorOnSurface">#340043</color>
+    <color name="colorSurfaceVariant">#ECDFE9</color>
+    <color name="colorOnSurfaceVariant">#4C444C</color>
+    <color name="colorOutline">#7E747D</color>
+    <color name="colorInverseOnSurface">#FFEBFE</color>
+    <color name="colorInverseSurface">#4E155E</color>
+    <color name="colorInversePrimary">#F2AFFF</color>
+    <color name="colorShadow">#000000</color>
+    <color name="colorSurfaceTint">#824791</color>
+    <color name="colorSurfaceTintColor">#824791</color>
+</resources>
