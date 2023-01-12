@@ -64,21 +64,25 @@
 
     <style name="TextViewCardTitle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">23sp</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="TextViewMessage" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">23sp</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="TextViewSubtitle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">23sp</item>
     </style>
 
+    <style name="TextViewText" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">20sp</item>
+    </style>
     <style name="CustomFAB" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
         <item name="android:fontFamily">sans-serif-condensed-medium</item>
         <item name="android:textAllCaps">true</item>

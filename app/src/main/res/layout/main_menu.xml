@@ -9,11 +9,12 @@
     tools:context=".activities.MainActivity">
 
 
+
+
     <FrameLayout
         android:id="@+id/mm_top_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/mm_top_frame"/>
 

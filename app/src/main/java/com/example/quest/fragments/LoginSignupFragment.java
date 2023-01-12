@@ -65,8 +65,7 @@ public class LoginSignupFragment extends Fragment {
     MaterialTextView logInMessage;
     MaterialButton signUpTextButton;
     MaterialButton logInTextButton;
-    MaterialButton signUpButton;
-    MaterialButton logInButton;
+    MaterialButton signupLoginButton;
     ProgressBar progressBar;
 
     TextView errorTextView;
@@ -125,32 +124,28 @@ public class LoginSignupFragment extends Fragment {
             }
         });
         //sign up button behaviour
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        signupLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loading(view, true);
-                signup = Variables.SIGNUP_SUCCESSFUL;
-                String usernameSt = String.valueOf(usernameTextEdit.getText()).trim();
-                String emailSt = String.valueOf(emailTextEdit.getText()).trim();
-                String passwordSt = String.valueOf(passwordTextEdit.getText());
-                FirebaseFirestore database = FirebaseFirestore.getInstance();
-                isAvailableEmail(usernameSt, emailSt, passwordSt, database);
-            }
-        });
-        //log in button behaviour
-        logInButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                loading(view, true);
-                String emailOrUsername;
-                String username = String.valueOf(usernameTextEdit.getText()).trim();
-                String password = String.valueOf(passwordTextEdit.getText());
-                FirebaseFirestore database = FirebaseFirestore.getInstance();
-                if (isValidEmail(String.valueOf(usernameTextEdit.getText()).trim())) {
-                    emailOrUsername = getString(R.string.db_em);
-                } else emailOrUsername = getString(R.string.db_un);
-                logIn(username, password, database, emailOrUsername);
+                if (state == Variables.SIGNUP) {
+                    loading(true);
+                    signup = Variables.SIGNUP_SUCCESSFUL;
+                    String usernameSt = String.valueOf(usernameTextEdit.getText()).trim();
+                    String emailSt = String.valueOf(emailTextEdit.getText()).trim();
+                    String passwordSt = String.valueOf(passwordTextEdit.getText());
+                    FirebaseFirestore database = FirebaseFirestore.getInstance();
+                    isAvailableEmail(usernameSt, emailSt, passwordSt, database);
+                } else {
+                    loading(true);
+                    String emailOrUsername;
+                    String username = String.valueOf(usernameTextEdit.getText()).trim();
+                    String password = String.valueOf(passwordTextEdit.getText());
+                    FirebaseFirestore database = FirebaseFirestore.getInstance();
+                    if (isValidEmail(String.valueOf(usernameTextEdit.getText()).trim())) {
+                        emailOrUsername = getString(R.string.db_em);
+                    } else emailOrUsername = getString(R.string.db_un);
+                    logIn(username, password, database, emailOrUsername);
+                }
             }
         });
 
@@ -166,7 +161,7 @@ public class LoginSignupFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
                 emailValid = isValidEmail(String.valueOf(emailTextEdit.getText()).trim());
-                checkEnableSignUpLogIn(signUpButton);
+                checkEnableSignUpLogIn();
             }
 
             @Override
@@ -203,7 +198,7 @@ public class LoginSignupFragment extends Fragment {
                 usernameValid = true;
                 if (state == Variables.LOGIN) {
                     usernameValid = true;
-                    checkEnableSignUpLogIn(logInButton);
+                    checkEnableSignUpLogIn();
                 } else {
                     if (charSequence.length() == 0) {
                         usernameValid = true;
@@ -218,7 +213,7 @@ public class LoginSignupFragment extends Fragment {
                         usernameValid = true;
                         usernameTextInput.setError(null);
                     }
-                    checkEnableSignUpLogIn(signUpButton);
+                    checkEnableSignUpLogIn();
                 }
             }
 
@@ -266,10 +261,9 @@ public class LoginSignupFragment extends Fragment {
                 }
                 if (state == Variables.SIGNUP) {
                     repeatPasswordValid = String.valueOf(repeatPasswordTextEdit.getText()).contentEquals(passwordTextEdit.getText()) && !TextUtils.isEmpty(passwordTextEdit.getText()) && !TextUtils.isEmpty(repeatPasswordTextEdit.getText());
-                    checkEnableSignUpLogIn(signUpButton);
-                } else {
-                    checkEnableSignUpLogIn(logInButton);
                 }
+                checkEnableSignUpLogIn();
+
             }
 
             @Override
@@ -292,7 +286,7 @@ public class LoginSignupFragment extends Fragment {
                             passwordTextInput.setError(getString(R.string.password_short));
                         else if (isValidPassword(passwordTextEdit.getText()) == Variables.GOOD_PASSWORD) {
                             passwordValid = true;
-                            checkEnableSignUpLogIn(signUpButton);
+                            checkEnableSignUpLogIn();
                         }
                         if (state == Variables.SIGNUP) {
                             if (String.valueOf(passwordTextEdit.getText()).contentEquals(repeatPasswordTextEdit.getText()))
@@ -317,7 +311,7 @@ public class LoginSignupFragment extends Fragment {
                     if (isValidPassword(passwordTextEdit.getText()) == Variables.GOOD_PASSWORD || passwordTextEdit.getText().length() == 0) {
                         passwordTextInput.setError(null);
                     }
-                    checkEnableSignUpLogIn(signUpButton);
+                    checkEnableSignUpLogIn();
                     clearFocus(view);
                 }
                 return false;
@@ -335,7 +329,7 @@ public class LoginSignupFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!TextUtils.isEmpty(charSequence) && !TextUtils.isEmpty((passwordTextEdit.getText()))) {
                     repeatPasswordValid = String.valueOf(charSequence).contentEquals(passwordTextEdit.getText());
-                    checkEnableSignUpLogIn(signUpButton);
+                    checkEnableSignUpLogIn();
                 }
             }
 
@@ -354,13 +348,13 @@ public class LoginSignupFragment extends Fragment {
                         repeatPasswordTextInput.setError(getString(R.string.pass_no_match));
                     } else {
                         repeatPasswordTextInput.setError(null);
-                        checkEnableSignUpLogIn(signUpButton);
+                        checkEnableSignUpLogIn();
                     }
 
                 } else {
                     repeatPasswordTextInput.setError(null);
                     checkLogo();
-                    checkEnableSignUpLogIn(signUpButton);
+                    checkEnableSignUpLogIn();
                 }
             }
         });
@@ -373,7 +367,7 @@ public class LoginSignupFragment extends Fragment {
                 } else {
                     repeatPasswordTextInput.setError(null);
                     if (keyEvent.getKeyCode() == 66) {
-                        checkEnableSignUpLogIn(signUpButton);
+                        checkEnableSignUpLogIn();
                         clearFocus(view);
                     }
                 }
@@ -402,8 +396,7 @@ public class LoginSignupFragment extends Fragment {
         logInMessage = view.findViewById(R.id.logo_txt2_2);
         signUpTextButton = view.findViewById(R.id.sign_up_text_button);
         logInTextButton = view.findViewById(R.id.log_in_text_button);
-        signUpButton = view.findViewById(R.id.sign_up_button);
-        logInButton = view.findViewById(R.id.log_in_button);
+        signupLoginButton = view.findViewById(R.id.log_in_sign_up_button);
         progressBar = view.findViewById(R.id.progress_bar);
     }
 
@@ -435,13 +428,13 @@ public class LoginSignupFragment extends Fragment {
     }
 
     //sign up, log in button check
-    private void checkEnableSignUpLogIn(MaterialButton button) {
+    private void checkEnableSignUpLogIn() {
         switch (state) {
             case Variables.SIGNUP:
-                button.setEnabled(emailValid && usernameValid && passwordValid && repeatPasswordValid);
+                signupLoginButton.setEnabled(emailValid && usernameValid && passwordValid && repeatPasswordValid);
                 break;
             case Variables.LOGIN:
-                button.setEnabled(usernameValid && passwordValid);
+                signupLoginButton.setEnabled(usernameValid && passwordValid);
                 break;
 
         }
@@ -486,8 +479,7 @@ public class LoginSignupFragment extends Fragment {
             repeatPasswordTextInput.setVisibility(View.GONE);
             usernameTextInput.setHint(getString(R.string.hint_un_em));
             //swap buttons
-            signUpButton.setVisibility(View.INVISIBLE);
-            logInButton.setVisibility(View.VISIBLE);
+            signupLoginButton.setText(getString(R.string.log_in));
             clearTextFields();
         } else {
             //change state
@@ -502,8 +494,7 @@ public class LoginSignupFragment extends Fragment {
             repeatPasswordTextInput.setVisibility(View.VISIBLE);
             usernameTextInput.setHint(getString(R.string.hint_username));
             //swap buttons
-            signUpButton.setVisibility(View.VISIBLE);
-            logInButton.setVisibility(View.INVISIBLE);
+            signupLoginButton.setText(getString(R.string.sign_up));
             //deactivate text fields
             usernameTextEdit.setText("");
             passwordTextEdit.setText("");
@@ -542,13 +533,13 @@ public class LoginSignupFragment extends Fragment {
     }
 
     //loading bar
-    private void loading(View button, Boolean isLoading) {
+    private void loading(Boolean isLoading) {
         if (isLoading) {
-            button.setEnabled(false);
-            button.setVisibility(View.INVISIBLE);
+            signupLoginButton.setEnabled(false);
+            signupLoginButton.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
         } else {
-            button.setVisibility(View.VISIBLE);
+            signupLoginButton.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
@@ -639,15 +630,15 @@ public class LoginSignupFragment extends Fragment {
                         signedIn(true, String.valueOf(username));
                         MainMenuFragment mainMenuFragment = new MainMenuFragment();
                         FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name));
-                        loading(signUpButton, false);
+                        loading(false);
                     })
                     .addOnFailureListener(exception -> {
                         signup = Variables.SIGNUP_ERROR;
-                        loading(signUpButton, false);
+                        loading(false);
                     });
         } else {
             setErrorTextView(signup);
-            loading(signUpButton, false);
+            loading(false);
         }
     }
 
@@ -669,12 +660,12 @@ public class LoginSignupFragment extends Fragment {
                         signedIn(true, documentSnapshot.getString(getString(R.string.db_un)));
                         MainMenuFragment mainMenuFragment = new MainMenuFragment();
                         FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name));
-                        loading(logInButton, false);
+                        loading(false);
                     } else {
                         //todo separate wrong username from wrong password messages
                         login = Variables.WRONG_USERNAME_PASSWORD;
                         setErrorTextView(login);
-                        loading(logInButton, false);
+                        loading(false);
                     }
                 });
     }
