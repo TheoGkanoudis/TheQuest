@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.quest.R;
-import com.example.quest.utilities.Game;
+import com.example.quest.Models.Game;
 
 
 public class GameOverviewFragment extends Fragment {
@@ -25,6 +26,7 @@ public class GameOverviewFragment extends Fragment {
     ImageView dif1;
     ImageView dif2;
     ImageView dif3;
+    ImageButton back;
     Game game;
 
     @Nullable
@@ -41,16 +43,24 @@ public class GameOverviewFragment extends Fragment {
         dif2 = view.findViewById(R.id.difficulty2);
         dif3 = view.findViewById(R.id.difficulty3);
         game = MainMenuFragment.viewedGame;
+        back = view.findViewById(R.id.back_button);
 
         //populate the views\
         location.setText(String.format(" %s",game.location));
-        gameImage.setImageResource(game.image);
+        gameImage.setImageResource(Integer.parseInt(game.image));
         gameTitle.setText(game.title);
         description.setText(R.string.lorem50);
 
-        if(game.difficulty>0) dif1.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.selected_dot2));
-        if(game.difficulty>1) dif2.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.selected_dot2));
-        if(game.difficulty>2) dif3.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.selected_dot2));
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
+        if(Integer.parseInt(game.difficulty)>0) dif1.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.selected_dot2));
+        if(Integer.parseInt(game.difficulty)>1) dif2.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.selected_dot2));
+        if(Integer.parseInt(game.difficulty)>2) dif3.setForeground(ContextCompat.getDrawable(getContext(),R.drawable.selected_dot2));
 
         return view;
     }

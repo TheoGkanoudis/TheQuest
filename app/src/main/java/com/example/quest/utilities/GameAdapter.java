@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quest.Models.Game;
 import com.example.quest.R;
 import com.example.quest.fragments.MainMenuFragment;
 
@@ -58,8 +59,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
         public void setGameData(Game game) {
             titleTextView.setText(game.title);
-            thumbImageView.setImageResource(game.image);
-            itemView.setId(game.id);
+            thumbImageView.setImageResource(Integer.parseInt(game.image));
+            itemView.setId(Integer.parseInt(game.id));
             itemView.setOnClickListener(myOnClickListener);
         }
     }
@@ -76,7 +77,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
         @Override
         public void onClick(View v) {
-            MainMenuFragment.changeToGameFragment(v.getId());
+            MainMenuFragment.changeToGameFragment();
         }
     }
 

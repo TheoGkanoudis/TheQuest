@@ -1,6 +1,6 @@
 package com.example.quest.utilities;
 
-public class Variables {
+public class Constants {
     //login/signup page state
     public static final int SIGNUP = 0;
     public static final int LOGIN = 1;
@@ -30,12 +30,13 @@ public class Variables {
     public static final int WRONG_USERNAME = 4;
     public static final int WRONG_PASSWORD = 5;
     public static final int WRONG_USERNAME_PASSWORD = 6;
+    public static final String KEY_FCM_TOKEN = "fcmToken";
     public static final String KEY_PREFERENCE_NAME = "theQuestPreference";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
-    public static final String KEY_ID = "id";
+    public static final String KEY_USER_ID = "id";
 
     //main menu
     public static int OFFSCREEN_PAGE_LIMIT = 3;

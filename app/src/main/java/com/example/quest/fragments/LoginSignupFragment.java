@@ -25,7 +25,7 @@ import com.example.quest.activities.MainActivity;
 import com.example.quest.utilities.CustomEditText;
 import com.example.quest.utilities.FragmentHelper;
 import com.example.quest.utilities.PreferenceManager;
-import com.example.quest.utilities.Variables;
+import com.example.quest.utilities.Constants;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputLayout;
@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 
 
 public class LoginSignupFragment extends Fragment {
-    public int state = Variables.SIGNUP;
+    public int state = Constants.SIGNUP;
     boolean emailValid = false;
     boolean usernameValid = false;
     boolean passwordValid = false;
@@ -116,7 +116,7 @@ public class LoginSignupFragment extends Fragment {
             public void onClick(View view) {
                 if (developing) {
                     MainMenuFragment mainMenuFragment = new MainMenuFragment();
-                    FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name));
+                    FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name), false);
                 } else {
                     reformLoginSignup();
                     clearFocus(view);
@@ -127,9 +127,9 @@ public class LoginSignupFragment extends Fragment {
         signupLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (state == Variables.SIGNUP) {
+                if (state == Constants.SIGNUP) {
                     loading(true);
-                    signup = Variables.SIGNUP_SUCCESSFUL;
+                    signup = Constants.SIGNUP_SUCCESSFUL;
                     String usernameSt = String.valueOf(usernameTextEdit.getText()).trim();
                     String emailSt = String.valueOf(emailTextEdit.getText()).trim();
                     String passwordSt = String.valueOf(passwordTextEdit.getText());
@@ -159,7 +159,7 @@ public class LoginSignupFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
+                setErrorTextView(Constants.SIGNUP_SUCCESSFUL);
                 emailValid = isValidEmail(String.valueOf(emailTextEdit.getText()).trim());
                 checkEnableSignUpLogIn();
             }
@@ -173,7 +173,7 @@ public class LoginSignupFragment extends Fragment {
         emailTextEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
+                setErrorTextView(Constants.SIGNUP_SUCCESSFUL);
                 checkLogo();
                 if (!b && !emailValid && !TextUtils.isEmpty(emailTextEdit.getText())) {
                     emailTextInput.setError(getString(R.string.error_email));
@@ -194,22 +194,22 @@ public class LoginSignupFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String target = String.valueOf(charSequence).trim();
-                setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
+                setErrorTextView(Constants.SIGNUP_SUCCESSFUL);
                 usernameValid = true;
-                if (state == Variables.LOGIN) {
+                if (state == Constants.LOGIN) {
                     usernameValid = true;
                     checkEnableSignUpLogIn();
                 } else {
                     if (charSequence.length() == 0) {
                         usernameValid = true;
                         usernameTextInput.setError(null);
-                    } else if (isValidUsername(target) == Variables.USER_LONG) {
+                    } else if (isValidUsername(target) == Constants.USER_LONG) {
                         usernameTextInput.setError(getString(R.string.username_long));
                         usernameValid = false;
-                    } else if (isValidUsername(target) == Variables.USER_WRONG_CHARS) {
+                    } else if (isValidUsername(target) == Constants.USER_WRONG_CHARS) {
                         usernameTextInput.setError((getString(R.string.username_characters)));
                         usernameValid = false;
-                    } else if (isValidUsername(target) == Variables.GOOD_USERNAME) {
+                    } else if (isValidUsername(target) == Constants.GOOD_USERNAME) {
                         usernameValid = true;
                         usernameTextInput.setError(null);
                     }
@@ -225,12 +225,12 @@ public class LoginSignupFragment extends Fragment {
         usernameTextEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
+                setErrorTextView(Constants.SIGNUP_SUCCESSFUL);
                 checkLogo();
                 if (!b && !TextUtils.isEmpty(usernameTextEdit.getText())) {
-                    if (isValidUsername(usernameTextEdit.getText().toString().trim()) == Variables.USER_SHORT)
+                    if (isValidUsername(usernameTextEdit.getText().toString().trim()) == Constants.USER_SHORT)
                         usernameTextInput.setError(getString(R.string.username_short));
-                    else if (isValidUsername(usernameTextEdit.getText().toString().trim()) == Variables.GOOD_USERNAME) {
+                    else if (isValidUsername(usernameTextEdit.getText().toString().trim()) == Constants.GOOD_USERNAME) {
                         usernameTextInput.setError(null);
                     }
                 }
@@ -247,23 +247,25 @@ public class LoginSignupFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
+                setErrorTextView(Constants.SIGNUP_SUCCESSFUL);
                 passwordValid = false;
-                if (isValidPassword(charSequence) == Variables.GOOD_PASSWORD) {
+                if (isValidPassword(charSequence) == Constants.GOOD_PASSWORD) {
                     passwordValid = true;
+                    checkEnableSignUpLogIn();
+                    return;
                 }
-                if (charSequence.length() > Variables.PASS_MAX_LENGTH) {
+                if(state == Constants.LOGIN) return;
+                if (charSequence.length() > Constants.PASS_MAX_LENGTH) {
                     passwordTextInput.setError(getString(R.string.password_long));
-                } else if (isValidPassword(charSequence) == Variables.PASS_WRONG_CHARS) {
+                } else if (isValidPassword(charSequence) == Constants.PASS_WRONG_CHARS) {
                     passwordTextInput.setError((getString(R.string.password_characters)));
-                } else if (isValidPassword(charSequence) == Variables.GOOD_PASSWORD || charSequence.length() == 0) {
+                } else if (isValidPassword(charSequence) == Constants.GOOD_PASSWORD || charSequence.length() == 0) {
                     passwordTextInput.setError(null);
                 }
-                if (state == Variables.SIGNUP) {
+                if (state == Constants.SIGNUP) {
                     repeatPasswordValid = String.valueOf(repeatPasswordTextEdit.getText()).contentEquals(passwordTextEdit.getText()) && !TextUtils.isEmpty(passwordTextEdit.getText()) && !TextUtils.isEmpty(repeatPasswordTextEdit.getText());
                 }
                 checkEnableSignUpLogIn();
-
             }
 
             @Override
@@ -274,21 +276,21 @@ public class LoginSignupFragment extends Fragment {
         passwordTextEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                setErrorTextView(Variables.SIGNUP_SUCCESSFUL);
+                setErrorTextView(Constants.SIGNUP_SUCCESSFUL);
                 checkLogo();
-                if (state == Variables.SIGNUP) {
+                if (state == Constants.SIGNUP) {
                     if (!b && !TextUtils.isEmpty(passwordTextEdit.getText())) {
                         passwordValid = false;
                         if (passwordTextEdit.length() == 0) {
                             passwordTextInput.setError(null);
                         }
-                        if (isValidPassword(passwordTextEdit.getText()) == Variables.PASS_SHORT)
+                        if (isValidPassword(passwordTextEdit.getText()) == Constants.PASS_SHORT)
                             passwordTextInput.setError(getString(R.string.password_short));
-                        else if (isValidPassword(passwordTextEdit.getText()) == Variables.GOOD_PASSWORD) {
+                        else if (isValidPassword(passwordTextEdit.getText()) == Constants.GOOD_PASSWORD) {
                             passwordValid = true;
                             checkEnableSignUpLogIn();
                         }
-                        if (state == Variables.SIGNUP) {
+                        if (state == Constants.SIGNUP) {
                             if (String.valueOf(passwordTextEdit.getText()).contentEquals(repeatPasswordTextEdit.getText()))
                                 repeatPasswordValid = true;
                             else repeatPasswordValid = false;
@@ -307,8 +309,8 @@ public class LoginSignupFragment extends Fragment {
         passwordTextEdit.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (keyEvent.getKeyCode() == 66 && state == Variables.LOGIN) {
-                    if (isValidPassword(passwordTextEdit.getText()) == Variables.GOOD_PASSWORD || passwordTextEdit.getText().length() == 0) {
+                if (keyEvent.getKeyCode() == 66 && state == Constants.LOGIN) {
+                    if (isValidPassword(passwordTextEdit.getText()) == Constants.GOOD_PASSWORD || passwordTextEdit.getText().length() == 0) {
                         passwordTextInput.setError(null);
                     }
                     checkEnableSignUpLogIn();
@@ -412,28 +414,28 @@ public class LoginSignupFragment extends Fragment {
     //username validity check
     private static int isValidUsername(String target) {
         Matcher matcher = username.matcher(target);
-        if (!matcher.matches()) return Variables.USER_WRONG_CHARS;
-        else if (target.length() < Variables.USER_MIN_LENGTH) return Variables.USER_SHORT;
-        else if (target.length() > Variables.USER_MAX_LENGTH) return Variables.USER_LONG;
-        else return Variables.GOOD_USERNAME;
+        if (!matcher.matches()) return Constants.USER_WRONG_CHARS;
+        else if (target.length() < Constants.USER_MIN_LENGTH) return Constants.USER_SHORT;
+        else if (target.length() > Constants.USER_MAX_LENGTH) return Constants.USER_LONG;
+        else return Constants.GOOD_USERNAME;
     }
 
     //password validity check
     private static int isValidPassword(CharSequence target) {
         Matcher matcher = password.matcher(target);
-        if (!matcher.matches()) return Variables.PASS_WRONG_CHARS;
-        else if (target.length() < Variables.PASS_MIN_LENGTH) return Variables.PASS_SHORT;
-        else if (target.length() > Variables.PASS_MAX_LENGTH) return Variables.PASS_LONG;
-        else return Variables.GOOD_PASSWORD;
+        if (!matcher.matches()) return Constants.PASS_WRONG_CHARS;
+        else if (target.length() < Constants.PASS_MIN_LENGTH) return Constants.PASS_SHORT;
+        else if (target.length() > Constants.PASS_MAX_LENGTH) return Constants.PASS_LONG;
+        else return Constants.GOOD_PASSWORD;
     }
 
     //sign up, log in button check
     private void checkEnableSignUpLogIn() {
         switch (state) {
-            case Variables.SIGNUP:
+            case Constants.SIGNUP:
                 signupLoginButton.setEnabled(emailValid && usernameValid && passwordValid && repeatPasswordValid);
                 break;
-            case Variables.LOGIN:
+            case Constants.LOGIN:
                 signupLoginButton.setEnabled(usernameValid && passwordValid);
                 break;
 
@@ -442,7 +444,7 @@ public class LoginSignupFragment extends Fragment {
 
     //logo visibility check
     private void checkLogo() {
-        if (state == Variables.SIGNUP) {
+        if (state == Constants.SIGNUP) {
             if (emailTextEdit.isFocused() || usernameTextEdit.isFocused() || passwordTextEdit.isFocused() || repeatPasswordTextEdit.isFocused()) {
                 logo.setVisibility(View.GONE);
             } else logo.setVisibility(View.VISIBLE);
@@ -466,9 +468,9 @@ public class LoginSignupFragment extends Fragment {
 
     //change the page between signup and login
     private void reformLoginSignup() {
-        if (state == Variables.SIGNUP) {
+        if (state == Constants.SIGNUP) {
             //change state
-            state = Variables.LOGIN;
+            state = Constants.LOGIN;
             //swap top text
             logInText.setVisibility(View.GONE);
             signUpText.setVisibility(View.VISIBLE);
@@ -483,7 +485,7 @@ public class LoginSignupFragment extends Fragment {
             clearTextFields();
         } else {
             //change state
-            state = Variables.SIGNUP;
+            state = Constants.SIGNUP;
             //swap top text
             logInText.setVisibility(View.VISIBLE);
             signUpText.setVisibility(View.GONE);
@@ -524,11 +526,12 @@ public class LoginSignupFragment extends Fragment {
     }
 
     //change signed in status
-    private void signedIn(boolean signedIn, String username) {
+    private void signedIn(boolean signedIn, String username, String userId) {
         PreferenceManager preferenceManager = MainActivity.preferenceManager;
-        preferenceManager.putBoolean(Variables.KEY_IS_SIGNED_IN, signedIn);
+        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, signedIn);
         if (signedIn) {
-            preferenceManager.putString(Variables.KEY_USERNAME, username);
+            preferenceManager.putString(Constants.KEY_USER_ID, userId);
+            preferenceManager.putString(Constants.KEY_USERNAME, username);
         }
     }
 
@@ -548,19 +551,19 @@ public class LoginSignupFragment extends Fragment {
     private void setErrorTextView(int error) {
         errorTextView.setVisibility(View.VISIBLE);
         switch (error) {
-            case Variables.USERNAME_EXISTS:
+            case Constants.USERNAME_EXISTS:
                 errorTextView.setText(getString(R.string.un_exists));
                 break;
-            case Variables.EMAIL_EXISTS:
+            case Constants.EMAIL_EXISTS:
                 errorTextView.setText(getString(R.string.em_exists));
                 break;
-            case Variables.WRONG_USERNAME:
+            case Constants.WRONG_USERNAME:
                 errorTextView.setText(getString(R.string.wrong_un));
                 break;
-            case Variables.WRONG_PASSWORD:
+            case Constants.WRONG_PASSWORD:
                 errorTextView.setText(getString(R.string.wrong_pw));
                 break;
-            case Variables.WRONG_USERNAME_PASSWORD:
+            case Constants.WRONG_USERNAME_PASSWORD:
                 errorTextView.setText(getString(R.string.wrong_un_pw));
                 break;
             default:
@@ -571,69 +574,66 @@ public class LoginSignupFragment extends Fragment {
 
     //SIGNUP-1. sign up email validity check with firebase
     private void isAvailableEmail(String username, String email, String password, FirebaseFirestore database) {
-        database.collection(getString(R.string.db_collection))
+        database.collection(getString(R.string.db_users_collection))
                 .whereEqualTo(getString(R.string.db_em), email)
                 .get()
                 .addOnCompleteListener(emExists -> {
                     if (emExists.isSuccessful() && (emExists.getResult() == null || emExists.getResult().getDocuments().size() == 0)) {
                         isAvailableUsername(username, email, password, database);
                     } else {
-                        signup = Variables.EMAIL_EXISTS;
-                        signupProcedure(username, email, password, 0);
+                        signup = Constants.EMAIL_EXISTS;
+                        signupProcedure(username, email, password);
                     }
                 });
     }
 
     //SIGNUP-2. sign up username availability check with firebase
     private void isAvailableUsername(String username, String email, String password, FirebaseFirestore database) {
-        database.collection(getString(R.string.db_collection))
+        database.collection(getString(R.string.db_users_collection))
                 .whereEqualTo(getString(R.string.db_un), username)
                 .get()
                 .addOnCompleteListener(unExists -> {
                     if (unExists.isSuccessful() && (unExists.getResult() == null || unExists.getResult().getDocuments().size() == 0)) {
                         setIdToGive(database, username, email, password);
                     } else {
-                        signup = Variables.USERNAME_EXISTS;
-                        signupProcedure(username, email, password, 0);
+                        signup = Constants.USERNAME_EXISTS;
+                        signupProcedure(username, email, password);
                     }
                 });
     }
 
     //SIGNUP-3. get the max id to give new user next
     private void setIdToGive(FirebaseFirestore database, String username, String email, String password) {
-        database.collection(getString(R.string.db_collection))
+        database.collection(getString(R.string.db_users_collection))
                 .orderBy(getString(R.string.db_id), Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(sortedById -> {
                     if (sortedById.isSuccessful()) {
                         DocumentSnapshot lastId = sortedById.getResult().getDocuments().get(0);
-                        int idToGive = (lastId.get(getString(R.string.db_id), int.class) + 1);
-                        signupProcedure(username, email, password, idToGive);
+                        signupProcedure(username, email, password);
                     }
                 });
     }
 
     //SIGNUP-4: create user profile in database
-    private void signupProcedure(String username, String email, String password, int id) {
-
+    private void signupProcedure(String username, String email, String password) {
         //add user to firebase instant
-        if (signup == Variables.SIGNUP_SUCCESSFUL) {
+        if (signup == Constants.SIGNUP_SUCCESSFUL) {
             FirebaseFirestore database = FirebaseFirestore.getInstance();
             HashMap<String, Object> data = new HashMap<>();
             data.put(getString(R.string.db_un), username);
             data.put(getString(R.string.db_em), email);
             data.put(getString(R.string.db_pw), password);
-            data.put(getString(R.string.db_id), id);
-            database.collection(getString(R.string.db_collection))
+            database.collection(getString(R.string.db_users_collection))
                     .add(data)
                     .addOnSuccessListener(documentReference -> {
-                        signedIn(true, String.valueOf(username));
+                        signedIn(true, String.valueOf(username), documentReference.getId());
                         MainMenuFragment mainMenuFragment = new MainMenuFragment();
-                        FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name));
+                        FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name), false);
                         loading(false);
                     })
                     .addOnFailureListener(exception -> {
-                        signup = Variables.SIGNUP_ERROR;
+                        signup = Constants.SIGNUP_ERROR;
                         loading(false);
                     });
         } else {
@@ -646,7 +646,7 @@ public class LoginSignupFragment extends Fragment {
     private void logIn(String username, String password, FirebaseFirestore database, String emailOrUsername) {
 
         PreferenceManager preferenceManager = MainActivity.preferenceManager;
-        database.collection(getString(R.string.db_collection))
+        database.collection(getString(R.string.db_users_collection))
                 .whereEqualTo(emailOrUsername, username)
                 .whereEqualTo(getString(R.string.db_pw), password)
                 .get()
@@ -654,20 +654,19 @@ public class LoginSignupFragment extends Fragment {
                     if (unLogin.isSuccessful() && unLogin.getResult() != null
                             && unLogin.getResult().getDocuments().size() > 0) {
                         DocumentSnapshot documentSnapshot = unLogin.getResult().getDocuments().get(0);
-                        preferenceManager.putString(Variables.KEY_EMAIL, documentSnapshot.getString(getString(R.string.db_em)));
-                        preferenceManager.putInt(Variables.KEY_ID, documentSnapshot.get(getString(R.string.db_id), int.class));
-                        Toast.makeText(getContext(), String.valueOf(preferenceManager.getInt(Variables.KEY_ID)), Toast.LENGTH_SHORT).show();
-                        signedIn(true, documentSnapshot.getString(getString(R.string.db_un)));
+                        preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(getString(R.string.db_em)));
+                        signedIn(true, documentSnapshot.getString(getString(R.string.db_un)),documentSnapshot.getId());
                         MainMenuFragment mainMenuFragment = new MainMenuFragment();
-                        FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name));
+                        FragmentHelper.changeToFragment(getParentFragmentManager(), mainMenuFragment, String.valueOf(R.string.main_menu_fragment_name), false);
                         loading(false);
                     } else {
                         //todo separate wrong username from wrong password messages
-                        login = Variables.WRONG_USERNAME_PASSWORD;
+                        login = Constants.WRONG_USERNAME_PASSWORD;
                         setErrorTextView(login);
                         loading(false);
                     }
                 });
     }
+
 
 }

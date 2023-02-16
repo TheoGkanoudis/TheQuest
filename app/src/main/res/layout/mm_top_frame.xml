@@ -6,48 +6,34 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    android:paddingTop="8dp"
-    android:paddingHorizontal="8dp"
-    android:paddingBottom="16dp">
+    android:padding="16dp">
 
     <ImageButton
-        android:id="@+id/logout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/logout"
+        android:backgroundTint="?attr/colorOnPrimary"
+        android:id="@+id/my_profile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/my_profile"
         android:scaleX="-1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_marginTop="8dp"
-        android:id="@+id/logo_img"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:src="@drawable/logo"
-        android:tint="?attr/colorOnPrimary"
-        android:visibility="visible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageButton
-        android:id="@+id/settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/settings"
+        android:backgroundTint="?attr/colorOnPrimary"
+        android:id="@+id/inbox_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/inbox_empty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/welcome_user"
         style="@style/TextViewMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/welcome_msg1"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/logo_img" />
+        android:textColor="?attr/colorOnPrimary"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
