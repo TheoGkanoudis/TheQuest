@@ -83,10 +83,20 @@
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">20sp</item>
     </style>
+
     <style name="CustomFAB" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
         <item name="android:fontFamily">sans-serif-condensed-medium</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/colorOnSurface</item>
         <item name="android:textSize">30sp</item>
     </style>
+
+    <style name="Theme.TheQuest.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.TheQuest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TheQuest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

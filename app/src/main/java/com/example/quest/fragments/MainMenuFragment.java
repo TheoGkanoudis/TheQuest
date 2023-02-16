@@ -20,6 +20,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.quest.R;
+import com.example.quest.activities.GameLobbyActivity;
 import com.example.quest.activities.MainActivity;
 import com.example.quest.utilities.FragmentHelper;
 import com.example.quest.Models.Game;
@@ -51,6 +52,7 @@ public class MainMenuFragment extends Fragment {
     FrameLayout mm_games_tabs;
 
     ImageButton signOutButton;
+    ImageButton lobbyButton;
 
     public List<Game> games;
     public static Game viewedGame;
@@ -82,6 +84,7 @@ public class MainMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.main_menu, container, false);
         welcomeTextView = view.findViewById(R.id.welcome_user);
         signOutButton = view.findViewById(R.id.my_profile);
+        lobbyButton = view.findViewById(R.id.inbox_button);
         mm_games_tabs = view.findViewById(R.id.mm_games_tabs);
         gamesViewPager = view.findViewById(R.id.game_cards_viewpager);
 
@@ -103,6 +106,7 @@ public class MainMenuFragment extends Fragment {
 
     private void setListeners(){
         signOutButton.setOnClickListener(v -> signOut());
+        lobbyButton.setOnClickListener(v -> lobby());
     }
 
     private void setViewPager(){
@@ -198,6 +202,11 @@ public class MainMenuFragment extends Fragment {
                     getActivity().finish();
                 })
                 .addOnFailureListener(e -> showToast("Unable to sign out"));
+    }
+
+    private void lobby(){
+        Intent lobbyActivityIntent = new Intent(getContext(), GameLobbyActivity.class);
+        startActivity(lobbyActivityIntent);
     }
 
 }
