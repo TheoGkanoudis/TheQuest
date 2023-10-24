@@ -1,7 +1,7 @@
 
 <resources>
     <color name="seed">#815989</color>
-    <color name="colorPrimary">#F2AFFF</color>
+    <color name="colorPrimary">#D0B7D5</color>
     <color name="colorOnPrimary">#4E155E</color>
     <color name="colorPrimaryContainer">#672F77</color>
     <color name="colorOnPrimaryContainer">#FCD7FF</color>
@@ -28,6 +28,6 @@
     <color name="colorInverseSurface">#FCD7FF</color>
     <color name="colorInversePrimary">#824791</color>
     <color name="colorShadow">#000000</color>
-    <color name="colorSurfaceTint">#F2AFFF</color>
-    <color name="colorSurfaceTintColor">#F2AFFF</color>
+    <color name="colorSurfaceTint">#D0B7D5</color>
+    <color name="colorSurfaceTintColor">#D0B7D5</color>
 </resources>

@@ -39,28 +39,20 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainMenuFragment extends Fragment {
-
     String username;
     String welcomeMessage;
-
     private static GameAdapter gameAdapter;
     private static ViewPager2 gamesViewPager;
-
     int gamesAvailable;
-
     TextView welcomeTextView;
     FrameLayout mm_games_tabs;
-
     ImageButton signOutButton;
     ImageButton lobbyButton;
 
     public List<Game> games;
     public static Game viewedGame;
-
     static FragmentManager fragmentManager;
-
     public static PreferenceManager preferenceManager;
-
 
 
     @Override
@@ -76,7 +68,6 @@ public class MainMenuFragment extends Fragment {
                     }
                 }).attach();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -96,19 +87,16 @@ public class MainMenuFragment extends Fragment {
 
         return view;
     }
-
     private void loadUserInfo(){
         preferenceManager = MainActivity.preferenceManager;
         username = preferenceManager.getString(Constants.KEY_USERNAME);
         welcomeMessage = String.format("Welcome, <b>%s</b>!", username);
         welcomeTextView.setText(Html.fromHtml(welcomeMessage,Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH));
     }
-
     private void setListeners(){
         signOutButton.setOnClickListener(v -> signOut());
         lobbyButton.setOnClickListener(v -> lobby());
     }
-
     private void setViewPager(){
         gameAdapter = new GameAdapter(games);
 
@@ -140,15 +128,12 @@ public class MainMenuFragment extends Fragment {
 
         gamesViewPager.setPageTransformer(compositePageTransformer);
     }
-
     private void showToast(String message){
         //Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
-
     private void getToken(){
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
-
     private void updateToken(String token){
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference =
@@ -159,7 +144,6 @@ public class MainMenuFragment extends Fragment {
                 .addOnSuccessListener(unused -> showToast("Token update successful"))
                 .addOnFailureListener(runnable -> showToast("Unable to update token"));
     }
-
     //finds local games and sets the games tabs visibility
     private void gamesFinder() {
         games = new ArrayList<>();
@@ -177,15 +161,12 @@ public class MainMenuFragment extends Fragment {
             game.image = String.valueOf(getResources().getIdentifier(drawableName, "drawable", packageName));
             games.add(game);
         }
-        mm_games_tabs.setVisibility(gamesAvailable>0?View.VISIBLE:View.GONE);
+        mm_games_tabs.setVisibility(gamesAvailable > 0 ? View.VISIBLE : View.GONE);
     }
-
     public static void changeToGameFragment() {
         GameOverviewFragment gameOverviewFragment = new GameOverviewFragment();
         FragmentHelper.changeToFragment(fragmentManager, gameOverviewFragment, String.valueOf(R.string.game_fragment_name), true);
     }
-
-
     private void signOut(){
         showToast("Signing out...");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -203,7 +184,6 @@ public class MainMenuFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> showToast("Unable to sign out"));
     }
-
     private void lobby(){
         Intent lobbyActivityIntent = new Intent(getContext(), GameLobbyActivity.class);
         startActivity(lobbyActivityIntent);
